@@ -3,14 +3,18 @@
     <main class="mx-auto max-w-xl">
       <h1 class="font-bold text-white text-4xl">Composition</h1>
       <div class="mt-4 space-y-4">
-        <AppSection title="Checkbox">
+        <app-section title="Checkbox">
           <checkbox v-model="checked" class="mr-2" name="is_agreed">
             <span slot="label" class="ml-2">kill me please</span>
           </checkbox>
-        </AppSection>
-        <AppSection title="Dropdown">
-          
-        </AppSection>
+        </app-section>
+        <app-section title="List">
+          <list>  
+            <list-item>react</list-item>
+            <list-item>vue</list-item>
+            <list-item>angular</list-item>
+          </list>
+        </app-section>
       </div>
     </main>
   </div>
@@ -19,11 +23,15 @@
 <script>
   import { AppSection } from './components/AppSection';
   import Checkbox from './components/Checkbox';
+  import List from './components/List';
+  import ListItem from './components/ListItem';
    
   export default {
     name: 'App',
     components: {
       AppSection,
+      ListItem,
+      List,
       Checkbox
     },
     data() {
