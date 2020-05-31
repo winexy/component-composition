@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="py-8 mb-64 h-full w-full">
     <main class="mx-auto max-w-xl">
-      <h1 class="font-bold text-white text-4xl">Composition</h1>
+      <h1 class="font-bold text-white text-4xl">Component composition</h1>
       <div class="mt-4 space-y-4">
         <app-section title="Checkbox">
           <checkbox v-model="checked" class="mr-2" name="is_agreed">
