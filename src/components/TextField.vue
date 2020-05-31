@@ -24,6 +24,11 @@
     },
     props: {
       value: String
+    },
+    methods: {
+      focus() {
+        this.$el.focus();
+      }
     }
   }
 </script>

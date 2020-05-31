@@ -4,6 +4,7 @@
     functional: true,
     render(h, context) {
       return h('li', {
+        on: context.listeners,
         attrs: {
           tabindex: 0
         },

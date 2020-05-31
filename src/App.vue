@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="py-8 min-h-screen min-w-screen bg-gray-800">
+  <div id="app" class="py-8 mb-64 h-full w-full">
     <main class="mx-auto max-w-xl">
       <h1 class="font-bold text-white text-4xl">Composition</h1>
       <div class="mt-4 space-y-4">
@@ -41,6 +41,85 @@
               </list-item> 
             </list> 
           </dropdown> 
+        </app-section>
+        <app-section title="SearchBox" class="pb-5">
+          <dropdown>
+            <div 
+              tabindex="0" 
+              slot-scope="{ show }"
+              class="
+                inline px-3 py-2 
+                rounded shadow-sm 
+                border border-gray-200 
+                cursor-pointer
+                focus:outline-none
+                focus:shadow-outline
+              "
+              @click="show"
+              @focus="onSearchBoxFocus(show)"
+            >
+              {{ search.value || 'Выберите команду...' }}
+            </div>
+            <div
+              slot="content" 
+              class="
+                w-40 space-y-1 mt-3
+                shadow-xs bg-white rounded
+              "
+            >
+              <div class="p-2 shadow-sm">
+                <text-field 
+                  v-model="search.query"
+                  ref="searchField"
+                  type="search"
+                  class="w-full"
+                />
+              </div>
+              <list
+                class="p-1 overflow-scroll"
+               :style="{ maxHeight: '100px' }"
+              >  
+                <list-item
+                  v-for="item in filtered" 
+                  :key="item"
+                  class="flex items-center text-sm"
+                  @click="search.value = item"
+                  @keypress.enter="search.value = item"
+                >
+                  {{ item }}
+                </list-item> 
+              </list> 
+            </div>
+          </dropdown> 
+        </app-section>
+        <app-section title="Resetable TextField">
+          <div class="inline-flex items-center relative">
+            <text-field 
+              ref="resetableField"
+              v-model="textContent" 
+            />
+            <button 
+              v-if="textContent.length > 0"
+              class="
+                absolute right-0 mr-2
+                flex items-center justify-center
+                w-5 h-5
+                text-xs
+                rounded
+                bg-gray-100
+                border border-gray-200
+                hover:text-gray-600
+                hover:bg-gray-200
+                active:bg-gray-300
+                focus:border-indigo-500
+                focus:outline-none
+                focus:shadow-outline
+              "
+              @click="onReset"
+            >
+              &times;
+            </button>
+          </div>
         </app-section>
       </div>
     </main>
@@ -84,7 +163,41 @@
             name: 'Angular',
             icon: 'https://cdn.worldvectorlogo.com/logos/angular-icon-1.svg'
           }
-        ]
+        ],
+        search: {
+          query: '',
+          value: '',
+          items: [
+            'Valenca',
+            'Sevilla',
+            'Atletico',
+            'Zaragoza',
+            'Mallorca',
+            'Getafe',
+            'Atletic Bilbao',
+            'Real Sociedad',
+            'Osasuna'
+          ]
+        }
+      }
+    },
+    computed: {
+      filtered() {
+        return this.search.items.filter(x => 
+          x.toLowerCase().includes(this.search.query.toLowerCase())
+        );
+      }
+    },
+    methods: {
+      onSearchBoxFocus(show) {
+        show();
+        this.$nextTick(() => {
+          this.$refs.searchField.focus();
+        });
+      },
+      onReset() {
+        this.textContent = '';
+        this.$refs.resetableField.focus();
       }
     }
   };

@@ -1,7 +1,7 @@
 <template>
   <label
     class="flex items-center cursor-pointer" 
-    @keypress.space="$emit('change', !checked)"
+    @keypress.space.prevent="$emit('change', !checked)"
   >
     <input 
       v-bind="$attrs"

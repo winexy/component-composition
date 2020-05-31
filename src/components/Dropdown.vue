@@ -4,8 +4,9 @@
     <div class="relative">
       <div 
         v-if="visible"
+        ref="content"
         v-on-clickaway="hide"
-        class="absolute top-0"
+        class="z-10 absolute top-0"
       >
         <slot name="content" />
       </div>
@@ -24,12 +25,30 @@
         visible: false
       };
     },
+    beforeDestroy() {
+      document.removeEventListener('keydown', this.keyboard);
+      document.removeEventListener('focusin', this.onFocus);
+    },
     methods: {
       show() {
         this.visible = true;
+        document.addEventListener('keydown', this.keyboard);
+        document.addEventListener('focusin', this.onFocus);
       },
       hide() {
         this.visible = false;
+        document.removeEventListener('keydown', this.keyboard);
+        document.removeEventListener('focusin', this.onFocus);
+      },
+      keyboard(e) {
+        if (e.keyCode === 27) {
+          this.hide();
+        }
+      },
+      onFocus(e) {
+        if (!this.$refs.content.contains(e.target)) {
+          this.hide(); 
+        }
       }
     }
   }

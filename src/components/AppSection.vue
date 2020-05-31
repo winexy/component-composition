@@ -11,7 +11,7 @@
       }, context.props.title);
 
       return h('section', {
-        class: `px-4 py-3 rounded bg-white shadow-md`
+        class: `px-4 py-3 rounded bg-white shadow-md ${context.data.staticClass}`
       }, [title, context.children]);
     }
   };
