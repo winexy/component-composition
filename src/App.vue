@@ -15,6 +15,13 @@
             <list-item>angular</list-item>
           </list>
         </app-section>
+        <app-section :title="`TextField ${textContent}`">
+          <text-field 
+            v-model="textContent" 
+            type="text"
+            name="text-content"
+          />
+        </app-section>
       </div>
     </main>
   </div>
@@ -25,18 +32,21 @@
   import Checkbox from './components/Checkbox';
   import List from './components/List';
   import ListItem from './components/ListItem';
+  import TextField from './components/TextField';
    
   export default {
     name: 'App',
     components: {
       AppSection,
+      TextField,
       ListItem,
       List,
       Checkbox
     },
     data() {
       return {
-        checked: false
+        checked: false,
+        textContent: ''
       }
     }
   };
