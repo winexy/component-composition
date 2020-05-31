@@ -3,7 +3,7 @@
     name: 'list',
     functional: true,
     render(h, context) {
-      return h('ul', context.children);
+      return h('ul', context.data, context.children);
     }
   };
 </script>

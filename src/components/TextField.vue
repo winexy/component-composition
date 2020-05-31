@@ -2,7 +2,7 @@
   <input 
     v-on="$listeners"
     v-bind="$attrs"
-    v-model="value"
+    :value="value"
     @input="$emit('onInput', $event.target.value)"
     class="
       px-2 py-1 

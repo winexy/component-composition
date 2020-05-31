@@ -8,6 +8,7 @@
           tabindex: 0
         },
         class: `
+          ${context.data.staticClass}
           px-4 py-1
           hover:bg-gray-100
           focus:outline-none

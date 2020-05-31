@@ -22,31 +22,69 @@
             name="text-content"
           />
         </app-section>
+        <app-section title="Dropdown">
+          <dropdown>
+            <app-button slot-scope="{ show }" @click="show">
+              click me
+            </app-button>
+            <list 
+              slot="content" 
+              class="w-40 space-y-1 p-1 mt-1 shadow-xs bg-white rounded"
+            >  
+              <list-item
+                v-for="framework in frameworks" 
+                :key="framework.name"
+                class="flex items-center text-sm"
+              >
+                <img aria-hidden="true" :src="framework.icon" class="mr-2 w-5">
+                <strong class="font-semibold">{{ framework.name }}</strong>
+              </list-item> 
+            </list> 
+          </dropdown> 
+        </app-section>
       </div>
     </main>
   </div>
 </template>
 
 <script>
-  import { AppSection } from './components/AppSection';
+  import AppSection from './components/AppSection';
   import Checkbox from './components/Checkbox';
   import List from './components/List';
   import ListItem from './components/ListItem';
   import TextField from './components/TextField';
+  import Dropdown from './components/Dropdown';
+  import AppButton from './components/AppButton';
    
   export default {
     name: 'App',
     components: {
       AppSection,
       TextField,
+      Dropdown,
       ListItem,
       List,
+      AppButton,
       Checkbox
     },
     data() {
       return {
         checked: false,
-        textContent: ''
+        textContent: '',
+        frameworks: [
+          {
+            name: 'React',
+            icon: 'https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/20167174151551942641-512.png'
+          },
+          {
+            name: 'Vue',
+            icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png'
+          },
+          {
+            name: 'Angular',
+            icon: 'https://cdn.worldvectorlogo.com/logos/angular-icon-1.svg'
+          }
+        ]
       }
     }
   };
