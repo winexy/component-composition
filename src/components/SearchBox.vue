@@ -47,6 +47,7 @@
 </template>
 
 <script>
+  import { ref, computed } from '@vue/composition-api';
   import List from './List';
   import ListItem from './ListItem';
   import TextField from './TextField';
@@ -69,12 +70,15 @@
         query: ''
       }
     },
-    computed: {
-      filtered() {
-        return this.items.filter(x => 
-          x.toLowerCase().includes(this.query.toLowerCase())
+    setup(props) {
+      const query = ref('');
+      const filtered = computed(() => {
+        return props.items.filter(x => 
+          x.toLowerCase().includes(query.value.toLowerCase())
         );
-      }
+      });
+
+      return { filtered, query };
     },
     methods: {
       onKeydown(show, e) {
