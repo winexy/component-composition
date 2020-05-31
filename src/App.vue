@@ -23,103 +23,33 @@
           />
         </app-section>
         <app-section title="Dropdown">
-          <dropdown>
+          <frameworks-dropdown :frameworks="frameworks">
             <app-button slot-scope="{ show }" @click="show">
               click me
             </app-button>
-            <list 
-              slot="content" 
-              class="w-40 space-y-1 p-1 mt-1 shadow-xs bg-white rounded"
-            >  
-              <list-item
-                v-for="framework in frameworks" 
-                :key="framework.name"
-                class="flex items-center text-sm"
-              >
-                <img aria-hidden="true" :src="framework.icon" class="mr-2 w-5">
-                <strong class="font-semibold">{{ framework.name }}</strong>
-              </list-item> 
-            </list> 
-          </dropdown> 
+          </frameworks-dropdown> 
+          <frameworks-dropdown :frameworks="frameworks">
+            <button
+              slot-scope="{ show }" 
+              class="mt-2 p-5 border border-indigo-500"
+              @click="show"
+            >
+              another one
+            </button>
+          </frameworks-dropdown> 
         </app-section>
         <app-section title="SearchBox" class="pb-5">
-          <dropdown>
-            <div 
-              tabindex="0" 
-              slot-scope="{ show }"
-              class="
-                inline px-3 py-2 
-                rounded shadow-sm 
-                border border-gray-200 
-                cursor-pointer
-                focus:outline-none
-                focus:shadow-outline
-              "
-              @click="show"
-              @focus="onSearchBoxFocus(show)"
-            >
-              {{ search.value || 'Выберите команду...' }}
-            </div>
-            <div
-              slot="content" 
-              class="
-                w-40 space-y-1 mt-3
-                shadow-xs bg-white rounded
-              "
-            >
-              <div class="p-2 shadow-sm">
-                <text-field 
-                  v-model="search.query"
-                  ref="searchField"
-                  type="search"
-                  class="w-full"
-                />
-              </div>
-              <list
-                class="p-1 overflow-scroll"
-               :style="{ maxHeight: '100px' }"
-              >  
-                <list-item
-                  v-for="item in filtered" 
-                  :key="item"
-                  class="flex items-center text-sm"
-                  @click="search.value = item"
-                  @keypress.enter="search.value = item"
-                >
-                  {{ item }}
-                </list-item> 
-              </list> 
-            </div>
-          </dropdown> 
+          <search-box 
+            :value="search.value"
+            :items="search.items"
+            @select="search.value = $event"
+          />
         </app-section>
-        <app-section title="Resetable TextField">
-          <div class="inline-flex items-center relative">
-            <text-field 
-              ref="resetableField"
-              v-model="textContent" 
-            />
-            <button 
-              v-if="textContent.length > 0"
-              class="
-                absolute right-0 mr-2
-                flex items-center justify-center
-                w-5 h-5
-                text-xs
-                rounded
-                bg-gray-100
-                border border-gray-200
-                hover:text-gray-600
-                hover:bg-gray-200
-                active:bg-gray-300
-                focus:border-indigo-500
-                focus:outline-none
-                focus:shadow-outline
-              "
-              @click="onReset"
-            >
-              &times;
-            </button>
-          </div>
+        <app-section title="Resettable TextField">
+          <resettable-input 
+            v-model="textContent"
+            @reset="textContent = ''" 
+          />
         </app-section>
       </div>
     </main>
@@ -132,19 +62,23 @@
   import List from './components/List';
   import ListItem from './components/ListItem';
   import TextField from './components/TextField';
-  import Dropdown from './components/Dropdown';
   import AppButton from './components/AppButton';
-   
+  import SearchBox from './components/SearchBox';
+  import ResettableInput from './components/ResettableInput';
+  import FrameworksDropdown from './components/FrameworksDropdown';
+
   export default {
     name: 'App',
     components: {
+      FrameworksDropdown,
+      SearchBox,
       AppSection,
       TextField,
-      Dropdown,
       ListItem,
       List,
       AppButton,
-      Checkbox
+      Checkbox,
+      ResettableInput
     },
     data() {
       return {
@@ -165,7 +99,6 @@
           }
         ],
         search: {
-          query: '',
           value: '',
           items: [
             'Valenca',
@@ -179,25 +112,6 @@
             'Osasuna'
           ]
         }
-      }
-    },
-    computed: {
-      filtered() {
-        return this.search.items.filter(x => 
-          x.toLowerCase().includes(this.search.query.toLowerCase())
-        );
-      }
-    },
-    methods: {
-      onSearchBoxFocus(show) {
-        show();
-        this.$nextTick(() => {
-          this.$refs.searchField.focus();
-        });
-      },
-      onReset() {
-        this.textContent = '';
-        this.$refs.resetableField.focus();
       }
     }
   };
