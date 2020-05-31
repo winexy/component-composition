@@ -16,7 +16,7 @@
         w-5 h-5
         bg-gray-100
         rounded 
-        border border-gray-200
+        border border-gray-500
         text-indigo-500
         hover:text-indigo-300
         active:text-indigo-600
