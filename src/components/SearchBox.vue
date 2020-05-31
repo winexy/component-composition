@@ -12,7 +12,7 @@
         focus:shadow-outline
       "
       @click="show"
-      @focus="onFocus(show)"
+      @keydown="onKeydown(show, $event)"
     >
       {{ value || 'Выберите команду...' }}
     </div>
@@ -77,11 +77,13 @@
       }
     },
     methods: {
-      onFocus(show) {
-        show();
-        this.$nextTick(() => {
-          this.$refs.textField.focus();
-        });
+      onKeydown(show, e) {
+        if (e.keyCode === 40) {
+          show();
+          this.$nextTick(() => {
+            this.$refs.textField.focus();
+          });
+        }
       }
     }
   }
